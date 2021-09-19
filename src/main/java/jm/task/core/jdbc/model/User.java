@@ -18,6 +18,13 @@ public class User {
     @Column
     private Byte age;
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{id = " + id
+                + ", name = " + name + ", lastName = " + lastName
+                + ", age = " + age + "}";
+    }
+
     public User() {
 
     }
