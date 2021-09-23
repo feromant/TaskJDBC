@@ -21,12 +21,11 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             connection = Util.getConnection();
             statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS users " +
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users " +
                     "(id BIGINT UNIQUE AUTO_INCREMENT PRIMARY KEY, " +
                     "name VARCHAR(10), " +
                     "lastname VARCHAR(10), " +
-                    "age TINYINT)";
-            statement.executeUpdate(query);
+                    "age TINYINT)");
             connection.commit();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -56,13 +55,12 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-
-        String query = "INSERT INTO users (id, name, lastname, age) VALUES(?, ?, ?, ?)";
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = Util.getConnection();
-            statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(
+                    "INSERT INTO users (id, name, lastname, age) VALUES(?, ?, ?, ?)");
 
             statement.setLong(1, userCount);
             statement.setString(2, name);
@@ -83,14 +81,11 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-
-        String query = "DELETE FROM users WHERE id = ?";
-
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = Util.getConnection();
-            statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             statement.setLong(1, id);
             statement.executeUpdate();
             connection.commit();
@@ -104,12 +99,10 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
-
-        List<User> users = new ArrayList<>();
-
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+        List<User> users = new ArrayList<>();
         try {
             connection = Util.getConnection();
             statement = connection.createStatement();
