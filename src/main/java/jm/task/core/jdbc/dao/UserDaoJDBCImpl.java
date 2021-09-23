@@ -9,8 +9,6 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    private static long userCount = 1;
-
     public UserDaoJDBCImpl() {
 
     }
@@ -22,7 +20,7 @@ public class UserDaoJDBCImpl implements UserDao {
             connection = Util.getConnection();
             statement = connection.createStatement();
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS users " +
-                    "(id BIGINT UNIQUE AUTO_INCREMENT PRIMARY KEY, " +
+                    "(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
                     "name VARCHAR(10), " +
                     "lastname VARCHAR(10), " +
                     "age TINYINT)");
@@ -60,17 +58,15 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             connection = Util.getConnection();
             statement = connection.prepareStatement(
-                    "INSERT INTO users (id, name, lastname, age) VALUES(?, ?, ?, ?)");
+                    "INSERT INTO users (name, lastname, age) VALUES(?, ?, ?)");
 
-            statement.setLong(1, userCount);
-            statement.setString(2, name);
-            statement.setString(3, lastName);
-            statement.setByte(4, age);
+            statement.setString(1, name);
+            statement.setString(2, lastName);
+            statement.setByte(3, age);
 
             statement.executeUpdate();
             connection.commit();
             System.out.println("User с именем " + name + " добавлен в базу данных");
-            userCount++;
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             Util.rollbackQuietly(connection);
