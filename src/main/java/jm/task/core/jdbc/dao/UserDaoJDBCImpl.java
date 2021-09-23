@@ -103,7 +103,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
 
-            statement.executeUpdate("DELETE FROM users");
+            statement.executeUpdate("TRUNCATE users");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
         }
