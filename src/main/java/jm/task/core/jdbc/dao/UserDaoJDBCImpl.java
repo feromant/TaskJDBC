@@ -21,13 +21,11 @@ public class UserDaoJDBCImpl implements UserDao {
             statement = connection.createStatement();
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS users " +
                     "(id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
-                    "name VARCHAR(10), " +
-                    "lastname VARCHAR(10), " +
+                    "name VARCHAR(32), " +
+                    "lastname VARCHAR(32), " +
                     "age TINYINT)");
-            connection.commit();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
-            Util.rollbackQuietly(connection);
         } finally {
             Util.closeStatement(statement);
             Util.closeConnection(connection);
@@ -42,10 +40,8 @@ public class UserDaoJDBCImpl implements UserDao {
             statement = connection.createStatement();
 
             statement.executeUpdate("DROP TABLE IF EXISTS users");
-            connection.commit();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
-            Util.rollbackQuietly(connection);
         } finally {
             Util.closeStatement(statement);
             Util.closeConnection(connection);
@@ -134,10 +130,8 @@ public class UserDaoJDBCImpl implements UserDao {
             statement = connection.createStatement();
 
             statement.executeUpdate("TRUNCATE users");
-            connection.commit();
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
-            Util.rollbackQuietly(connection);
         } finally {
             Util.closeStatement(statement);
             Util.closeConnection(connection);
